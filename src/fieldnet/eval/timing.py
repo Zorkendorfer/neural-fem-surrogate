@@ -26,7 +26,7 @@ def time_fem_solve(data_cfg, theta, n_runs: int = 100) -> dict:
     """Time the full FEM pipeline (mesh -> solve -> rasterize) for one sample."""
     r, sigma_inf, alpha = (float(theta[0]), float(theta[1]), float(theta[2]))
     times = []
-    for run in tqdm(range(n_runs + 3), desc="timing FEM solve", leave=False):  # 3 warm-up
+    for run in tqdm(range(n_runs + 3), desc="timing FEM solve"):  # 3 warm-up
         t0 = time.perf_counter()
         mesh = plate_with_hole_mesh(r, data_cfg.mesh_n_radial,
                                     data_cfg.mesh_n_angular, data_cfg.half_width,
@@ -51,7 +51,7 @@ def time_surrogate(model, kind, args, n_runs: int = 100,
         model(*args)
     _sync(device)
     times = []
-    for _ in tqdm(range(n_runs), desc="timing surrogate", leave=False):
+    for _ in tqdm(range(n_runs), desc="timing surrogate"):
         t0 = time.perf_counter()
         model(*args)
         _sync(device)
@@ -76,7 +76,7 @@ def time_surrogate_throughput(model, kind, args, batch_size: int,
         model(*batched)
     _sync(device)
     times = []
-    for _ in tqdm(range(n_runs), desc="timing throughput", leave=False):
+    for _ in tqdm(range(n_runs), desc="timing throughput"):
         t0 = time.perf_counter()
         model(*batched)
         _sync(device)

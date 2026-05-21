@@ -29,7 +29,7 @@ def evaluate_split(model, kind, raw, indices, norm, device="cpu",
     over the samples in ``indices`` (all in physical units)."""
     per = {c: [] for c in CHANNELS}
     disp, peak = [], []
-    for idx in tqdm(indices, desc=desc or f"eval {kind}", leave=False):
+    for idx in tqdm(indices, desc=desc or f"eval {kind}"):
         pred = predict_grid(model, kind, raw, idx, norm, device)   # (3, H, W)
         true = raw["fields"][idx]
         mask = raw["mask"][idx]

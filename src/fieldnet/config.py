@@ -53,6 +53,18 @@ class DeepONetConfig(BaseModel):
     out_channels: int = 3
 
 
+class TrainConfig(BaseModel):
+    epochs: int = 200
+    batch_size: int = 16
+    lr: float = 1e-3
+    min_lr: float = 1e-5
+    weight_decay: float = 1e-5
+    grad_clip: float = 1.0          # 0 disables gradient clipping
+    early_stop_patience: int = 30
+    physics_loss_weight: float = 0.0  # >0 enables the equilibrium residual (FNO)
+    num_workers: int = 0
+
+
 def load_config(path: str | Path, model_class: Type[T]) -> T:
     with open(path) as f:
         data = yaml.safe_load(f)

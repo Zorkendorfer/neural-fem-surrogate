@@ -20,6 +20,14 @@ class DataConfig(BaseModel):
     ood_r_threshold: float = 0.25
     data_dir: str = "data/"
 
+    # FEM mesh + material (Phase 1 data factory)
+    half_width: float = 1.0
+    mesh_n_radial: int = 64
+    mesh_n_angular: int = 200
+    mesh_grading: float = 1.7
+    youngs_modulus: float = 70000.0
+    poisson_ratio: float = 0.33
+
     @model_validator(mode="after")
     def fractions_sum_to_one(self) -> "DataConfig":
         total = self.train_fraction + self.val_fraction + self.test_fraction

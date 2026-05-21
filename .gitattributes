@@ -1,0 +1,3 @@
+# Normalize line endings: LF in the repo on every platform, so Windows
+# checkouts don't introduce CRLF diffs or break shell scripts.
+* text=auto eol=lf

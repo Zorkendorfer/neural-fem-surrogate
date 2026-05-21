@@ -13,3 +13,11 @@ test_fraction: 0.15
 ood_r_threshold: 0.25
 
 data_dir: data/
+
+# FEM mesh + material (Phase 1 data factory)
+half_width: 1.0
+mesh_n_radial: 64
+mesh_n_angular: 200
+mesh_grading: 1.7
+youngs_modulus: 70000.0
+poisson_ratio: 0.33

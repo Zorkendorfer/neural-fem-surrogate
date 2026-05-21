@@ -59,10 +59,12 @@ def load_checkpoint(path, map_location="cpu") -> dict:
 class MetricLogger:
     """Append per-epoch metrics to a CSV; mirror to W&B when enabled."""
 
-    def __init__(self, csv_path, use_wandb: bool, run_name: str, config: dict):
+    def __init__(self, csv_path, use_wandb: bool, run_name: str, config: dict,
+                 append: bool = False):
         self.csv_path = Path(csv_path)
         self.csv_path.parent.mkdir(parents=True, exist_ok=True)
         self._header_done = False
+        self._mode = "a" if append else "w"      # a fresh run truncates the CSV
         self.wandb = None
         if use_wandb:
             try:
@@ -73,12 +75,15 @@ class MetricLogger:
                 warnings.warn(f"W&B logging disabled: {exc}")
 
     def log(self, row: dict) -> None:
-        with open(self.csv_path, "a", newline="") as f:
+        write_header = not self._header_done and (
+            self._mode == "w" or not self.csv_path.exists())
+        with open(self.csv_path, self._mode, newline="") as f:
             writer = csv.DictWriter(f, fieldnames=list(row))
-            if not self._header_done:
+            if write_header:
                 writer.writeheader()
-                self._header_done = True
             writer.writerow(row)
+        self._header_done = True
+        self._mode = "a"                         # subsequent writes append
         if self.wandb is not None:
             self.wandb.log(row)
 
@@ -208,7 +213,8 @@ def train(model_kind: str, dataset_path, data_cfg: DataConfig,
 
     mlogger = MetricLogger(out_dir / "metrics.csv", use_wandb,
                            run_name=model_kind,
-                           config={"model": model_kind, **train_cfg.model_dump()})
+                           config={"model": model_kind, **train_cfg.model_dump()},
+                           append=resume)
 
     last_epoch = start_epoch - 1
     for epoch in range(start_epoch, train_cfg.epochs):

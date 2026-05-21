@@ -27,10 +27,18 @@ def main():
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--wandb", action="store_true")
     parser.add_argument("--device", default=None, help="cuda / mps / cpu / auto")
+    parser.add_argument("--epochs", type=int, default=None,
+                        help="override train-config epochs")
+    parser.add_argument("--patience", type=int, default=None,
+                        help="override early-stopping patience")
     args = parser.parse_args()
 
     data_cfg = load_config(args.data_config, DataConfig)
     train_cfg = load_config(args.train_config, TrainConfig)
+    if args.epochs is not None:
+        train_cfg.epochs = args.epochs
+    if args.patience is not None:
+        train_cfg.early_stop_patience = args.patience
     default_path, model_class = _MODEL_CONFIG[args.model]
     model_cfg = load_config(args.model_config or default_path, model_class)
     # Use absolute path for safety in remote environments

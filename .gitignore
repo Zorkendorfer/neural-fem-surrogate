@@ -1,6 +1,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.egg-info/
+.pytest_cache/
 .DS_Store
 
 # Data and Artifacts

@@ -1,0 +1,92 @@
+{
+  "accuracy": {
+    "fno": {
+      "in_dist": {
+        "sigma_vm": 0.00550022841586421,
+        "u_x": 0.007242316199214353,
+        "u_y": 0.009357582153461408,
+        "displacement": 0.004669195163296535,
+        "peak_stress_error": 0.019520407087609458,
+        "n_samples": 240
+      },
+      "ood": {
+        "sigma_vm": 0.022010212166100145,
+        "u_x": 0.02135402547367419,
+        "u_y": 0.027646296980449386,
+        "displacement": 0.015873070940389263,
+        "peak_stress_error": 0.06815765618132658,
+        "n_samples": 401
+      }
+    },
+    "deeponet": {
+      "in_dist": {
+        "sigma_vm": 0.02185074278774361,
+        "u_x": 0.012711359873840896,
+        "u_y": 0.014706501190084964,
+        "displacement": 0.009670974217200031,
+        "peak_stress_error": 0.08359076036094798,
+        "n_samples": 240
+      },
+      "ood": {
+        "sigma_vm": 0.05944330803585469,
+        "u_x": 0.041493503263039036,
+        "u_y": 0.06582762199591037,
+        "displacement": 0.0358599790829487,
+        "peak_stress_error": 0.12503509165434695,
+        "n_samples": 401
+      }
+    }
+  },
+  "timing": {
+    "fem_solve": {
+      "mean_ms": 797.7473337599897,
+      "std_ms": 19.334592801749597
+    },
+    "fno": {
+      "latency_cpu": {
+        "mean_ms": 313.75430345993664,
+        "std_ms": 7.247887526197619
+      },
+      "latency_gpu": {
+        "mean_ms": 5.019038070040551,
+        "std_ms": 0.40420721022188144
+      },
+      "throughput_gpu": {
+        "mean_ms": 1.9663734476587535,
+        "std_ms": 0.0013207806472365251
+      }
+    },
+    "deeponet": {
+      "latency_cpu": {
+        "mean_ms": 15.629878899972027,
+        "std_ms": 1.1208968122126666
+      },
+      "latency_gpu": {
+        "mean_ms": 1.630815150001581,
+        "std_ms": 0.18479667678769882
+      },
+      "throughput_gpu": {
+        "mean_ms": 1.1364498335957762,
+        "std_ms": 0.024683087402565976
+      }
+    }
+  },
+  "speedup": {
+    "fno_latency_cpu": 2.54258610945827,
+    "fno_latency_gpu": 158.94426832939808,
+    "fno_throughput_gpu": 405.69472432096813,
+    "deeponet_latency_cpu": 51.03989217481509,
+    "deeponet_latency_gpu": 489.1709117119842,
+    "deeponet_throughput_gpu": 701.9644072065045
+  },
+  "device": {
+    "cpu": "cpu",
+    "accel": "cuda"
+  },
+  "targets": {
+    "best_model": "fno",
+    "best_speedup": 701.9644072065045,
+    "speedup_over_1000x": false,
+    "ood_under_8pct": true
+  }
+}

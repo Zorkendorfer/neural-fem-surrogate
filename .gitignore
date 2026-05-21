@@ -10,6 +10,7 @@ data/*.npz
 data/norm_stats.npz
 data/sample_plots/
 checkpoints/
+*.zip
 
 # Experiment Tracking
 wandb/

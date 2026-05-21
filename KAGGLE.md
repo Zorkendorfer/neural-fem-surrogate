@@ -134,22 +134,41 @@ allows.)
 **Cell 7 — package the outputs for download**
 
 ```python
-!cd /kaggle/working/neural-fem-surrogate && \
- zip -r /kaggle/working/fieldnet_outputs.zip checkpoints benchmark
-print("download /kaggle/working/fieldnet_outputs.zip from the Output panel")
+import shutil, torch
+
+# benchmark figures + tables -- ~0.5 MB, downloads instantly
+shutil.make_archive("/kaggle/working/benchmark", "zip", "benchmark")
+
+# slim, weights-only checkpoints: drop optimizer state (~2/3 of the file).
+# These serve the model fine; they are just not resumable for training.
+for kind in ["fno", "deeponet"]:
+    ck = torch.load(f"checkpoints/{kind}/best.pt", map_location="cpu",
+                    weights_only=False)
+    slim = {k: ck[k] for k in ("epoch", "best_metric", "model_kind",
+                               "model_cfg", "model_state", "norm")}
+    torch.save(slim, f"/kaggle/working/{kind}_best.pt")
+print("ready in /kaggle/working: benchmark.zip, fno_best.pt, deeponet_best.pt")
 ```
 
 ## Step 4 — Download and commit locally
 
-1. In the notebook, open the right-hand **Output** panel → download
-   `fieldnet_outputs.zip` (or **Save Version** to persist it).
-2. Unzip it into your local repo root, overwriting `checkpoints/` and
-   `benchmark/`.
-3. Commit:
-   - `benchmark/` (figures + tables) **is** tracked → it goes into the repo and
-     feeds the README.
-   - `checkpoints/` **is** gitignored (model weights are large) → keep it
-     locally for the Phase 6 demo; it is not committed.
+Cell 7 writes the outputs to `/kaggle/working/`. To download them:
+
+- **Save Version** (top-right) and let it finish — the files then appear under
+  the notebook's **Output** tab and download reliably; **or**
+- expand `/kaggle/working` in the left file-browser panel and download each
+  file individually.
+
+Avoid one big zip of `checkpoints/` — full checkpoints carry optimizer state
+(~0.5 GB each) and large browser downloads from Kaggle are flaky. Cell 7 emits
+a tiny `benchmark.zip` and slim, weights-only `*_best.pt` files instead.
+
+Then locally:
+1. Unzip `benchmark.zip` into the repo root as `benchmark/`.
+2. Put `fno_best.pt` / `deeponet_best.pt` at `checkpoints/fno/best.pt` and
+   `checkpoints/deeponet/best.pt`.
+3. Commit: `benchmark/` is tracked (it feeds the README); `checkpoints/` is
+   gitignored — keep it locally for the Phase 6 demo.
 
 ---
 

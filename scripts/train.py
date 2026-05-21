@@ -33,7 +33,8 @@ def main():
     train_cfg = load_config(args.train_config, TrainConfig)
     default_path, model_class = _MODEL_CONFIG[args.model]
     model_cfg = load_config(args.model_config or default_path, model_class)
-    out_dir = args.out_dir or Path("checkpoints") / args.model
+    # Use absolute path for safety in remote environments
+    out_dir = (args.out_dir or Path("checkpoints") / args.model).resolve()
 
     summary = train(args.model, args.dataset, data_cfg, model_cfg, train_cfg,
                     out_dir, resume=args.resume, use_wandb=args.wandb,

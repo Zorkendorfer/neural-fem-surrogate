@@ -16,10 +16,12 @@ def relative_l2(pred: torch.Tensor, target: torch.Tensor,
             mask = mask.unsqueeze(1)
         pred = pred * mask
         target = target * mask
-    dims = tuple(range(1, pred.ndim))
-    num = ((pred - target) ** 2).sum(dims).clamp_min(1e-12).sqrt()
-    den = (target ** 2).sum(dims).clamp_min(eps).sqrt()
-    rel = num / den
+    
+    # Calculate norm over spatial and channel dimensions
+    diff_norm = torch.linalg.norm((pred - target).reshape(pred.shape[0], -1), dim=1)
+    target_norm = torch.linalg.norm(target.reshape(target.shape[0], -1), dim=1)
+    
+    rel = diff_norm / (target_norm + eps)
     return rel.mean() if reduce else rel
 
 

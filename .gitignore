@@ -1,19 +1,19 @@
 __pycache__/
 *.py[cod]
-*.egg-info/
-.eggs/
-dist/
-build/
-*.so
+*$py.class
+.DS_Store
+
+# Data and Artifacts
+data/*.npz
+data/norm_stats.npz
+data/sample_plots/
+checkpoints/
+
+# Experiment Tracking
+wandb/
+
+# Environments
 .env
 .venv
+env/
 venv/
-/data/
-/benchmark/
-/checkpoints/
-/wandb/
-*.npz
-*.zarr
-*.ckpt
-.DS_Store
-notebooks/.ipynb_checkpoints/

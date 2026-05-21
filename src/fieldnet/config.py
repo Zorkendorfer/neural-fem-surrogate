@@ -20,6 +20,9 @@ class DataConfig(BaseModel):
     ood_r_threshold: float = 0.25
     data_dir: str = "data/"
 
+    # DeepONet view: query points sampled per material domain per sample
+    n_query_points: int = 2048
+
     # FEM mesh + material (Phase 1 data factory)
     half_width: float = 1.0
     mesh_n_radial: int = 64
@@ -39,8 +42,8 @@ class FNOConfig(BaseModel):
     modes: int = 24
     width: int = 64
     n_layers: int = 4
-    in_channels: int = 3
-    out_channels: int = 3
+    in_channels: int = 4   # [SDF, mask, sigma_inf, alpha]
+    out_channels: int = 3  # [u_x, u_y, sigma_vm]
 
 
 class DeepONetConfig(BaseModel):

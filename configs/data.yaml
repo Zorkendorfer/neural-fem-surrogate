@@ -13,6 +13,7 @@ test_fraction: 0.15
 ood_r_threshold: 0.25
 
 data_dir: data/
+n_query_points: 2048
 
 # FEM mesh + material (Phase 1 data factory)
 half_width: 1.0

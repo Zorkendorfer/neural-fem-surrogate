@@ -8,10 +8,10 @@ build/
 .env
 .venv
 venv/
-data/
-benchmark/
-checkpoints/
-wandb/
+/data/
+/benchmark/
+/checkpoints/
+/wandb/
 *.npz
 *.zarr
 *.ckpt

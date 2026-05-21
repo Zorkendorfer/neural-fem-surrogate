@@ -1,5 +1,5 @@
 modes: 24
 width: 64
 n_layers: 4
-in_channels: 3
-out_channels: 3
+in_channels: 4   # [SDF, mask, sigma_inf, alpha]
+out_channels: 3  # [u_x, u_y, sigma_vm]

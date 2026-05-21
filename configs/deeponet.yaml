@@ -1,0 +1,4 @@
+branch_layers: [3, 128, 128, 128, 128]
+trunk_layers: [2, 128, 128, 128, 128]
+n_basis: 128
+out_channels: 3

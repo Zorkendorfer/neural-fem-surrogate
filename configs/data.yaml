@@ -1,0 +1,15 @@
+r_range: [0.05, 0.30]
+sigma_inf_range: [1.0, 10.0]
+alpha_range: [0.0, 90.0]
+
+grid_resolution: 128
+n_samples: 2000
+sampler: sobol
+seed: 42
+
+train_fraction: 0.70
+val_fraction: 0.15
+test_fraction: 0.15
+ood_r_threshold: 0.25
+
+data_dir: data/
